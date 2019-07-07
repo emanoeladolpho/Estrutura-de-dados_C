@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+float media(float n1, float n2){
+    return (n1+n2)/2;
+}
+
+int main(){
+    
+    
+    
+    typedef struct aluno{
+        char nome[20];
+        char curso[20];
+        char campus[15];
+        float nota1;
+        float nota2;
+        char status[10];
+        
+    }Taluno;
+    
+    
+    
+
+    
+    Taluno alunos[3];
+    
+    int i=0;
+    
+    for(i=0;i<3;i++){
+        printf("Insira o nome do aluno: ");
+        scanf("%s",&alunos[i].nome);
+        printf("Insira o curso de %s: ", alunos[i].nome);
+        scanf("%s",&alunos[i].curso);
+        printf("Insira o campus de %s: ",alunos[i].nome);
+        scanf("%s",&alunos[i].campus);
+        printf("Insira a primeira nota de %s: ",alunos[i].nome);
+        scanf("%f",&alunos[i].nota1);
+        printf("Insira a segunda nota de %s: ",alunos[i].nome);
+        scanf("%f",&alunos[i].nota2);
+        printf("|------------------------------|\n");
+    }
+    
+    
+    for(i=0;i<3;i++){
+        if(media(alunos[i].nota1,alunos[i].nota2) >=7){
+            strcpy(alunos[i].status,"Aprovado\n");
+        }else{
+            strcpy(alunos[i].status,"Reprovado\n");
+        }
+    }
+    printf("");
+    
+    
+    
+    for(i=0;i<3;i++){
+        printf("A media de %s e: %.1f\n Status: %s \n",alunos[i].nome,media(alunos[i].nota1,alunos[i].nota2),alunos[i].status);
+    }
+    
+
+    return 0;
+}
