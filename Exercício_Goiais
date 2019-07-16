@@ -1,0 +1,93 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+
+int main(){
+    
+    
+     typedef struct municipios{
+        
+        char cidade[15];
+        char estado[15];
+        int moradores;
+        int v;
+    }Tmunicipios;
+    
+    Tmunicipios municipios[3];
+    
+    
+    
+    int i =0;
+    
+    for(i=0;i<3;i++){
+        municipios[i].moradores =0;
+    }
+    
+    
+    
+    for(i=0;i<3;i++){
+        printf("Insira o municipio: ");
+        scanf("%s",&municipios[i].cidade);
+        printf("Insira o estado: ");
+        scanf("%s",&municipios[i].estado);
+        printf("Insira a quantidade de moradores: ");
+        scanf("%i",&municipios[i].moradores);
+    }
+    
+    printf("Cidade que ficam em Goiais: \n");
+    printf("");
+    
+
+    int c=0;
+    // CIDADES QUE FICAM EM GOIAIS
+    for(i=0;i<3;i++){
+        municipios[i].v = strcmp(municipios[i].estado,"goiais");
+        if(municipios[i].v == 0){
+            c++;
+            printf("");
+            printf("%i - %s\n",i+1,municipios[i].cidade);
+        }
+    }
+    
+    
+    // TOTAL DE MORADORES EM GOIAIS
+    int totsum_goiais=0;
+    for(i=0;i<3;i++){
+        municipios[i].v = strcmp(municipios[i].estado,"goiais");
+        if(municipios[i].v == 0){
+            totsum_goiais += municipios[i].moradores;
+        }
+    }
+    totsum_goiais = totsum_goiais/c;
+    
+    
+    
+    // CIDADE COM MAIS MORADORES
+    int maior=0;
+    char mais_moradores[15];
+    for(i=0;i<3;i++){
+        if(municipios[i].moradores > maior){
+            maior = municipios[i].moradores;
+            strcpy(mais_moradores,municipios[i].cidade);
+        }
+    }
+
+    // SABER QUAL CIDADE COM MAIS MORADORES PARA EXIBIR DADOS
+
+    
+    // TOTAL DE MORADORES NO GERAL
+    float media_moradores=0;
+    for(i=0;i<3;i++){
+        media_moradores += municipios[i].moradores;
+    }
+    media_moradores =  media_moradores/3;
+    
+    printf("A media de moradores em Goiais: %i\n", totsum_goiais);
+    printf("Media de pessoas cadastradas: %.2f\n", media_moradores);
+    printf("\n");
+    printf("O municipios com mais moradores e: %s\n", mais_moradores);
+    
+    return 0;
+}
