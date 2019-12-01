@@ -1,0 +1,236 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct Aluno{
+        char nome[50];
+        int matricula;
+        float nota;
+        int frequencia;
+        char turma[50];
+        int situacao;
+    }aluno;
+
+aluno *ponteiro;
+int num;
+
+void menu();
+void mostrarAlunos(int);
+void cadastra();
+void apagarAluno();
+void mostrarPeloNome();
+void mostrarPorMatricula();
+void mostrarPorTurma();
+void reprovadoAprovado(int);
+
+int main(){
+	
+	menu();
+	
+    return 0;
+}
+
+void menu() {
+	int entrada;
+	
+	do {
+
+		printf("1 - Cadastrar aluno\n");
+		printf("2 - Excluir um aluno\n");
+		printf("3 - Mostrar todos os alunos\n");
+		printf("4 - Mostrar dados do aluno por nome\n");
+		printf("5 - Mostrar dados do aluno por matricula\n");
+		printf("6 - Mostrar todos os alunos de determinada turma\n");
+		printf("7 - Ordenar alunos pelo NOME\n");
+		printf("8 - Ordenar alunos pela MATRICULA\n");
+		printf("9 - Ordenar alunos pela NOTA\n");
+    	printf("10 - Mostrar os alunos Aprovados e Reprovados\n");
+    	printf("11 - SAIR\n>>>: ");
+		scanf("%d", &entrada);
+		   
+		switch(entrada) {
+			case 1:
+			cadastra();
+			break;
+			case 2:
+			apagarAluno();
+			break;
+			case 3:
+			mostrarAlunos(num);
+			break;
+			case 4:
+			mostrarPeloNome();
+			break;
+			case 5:
+			mostrarPorMatricula();
+			break;
+			case 6:
+			mostrarPorTurma();
+			break;
+			case 10:
+			reprovadoAprovado(num);
+			break;
+			
+		}
+		   	
+	} while(entrada != 0);	
+}
+
+void cadastra() {
+    printf("Quantos alunos deseja cadastrar: ");
+    scanf("%i",&num);
+
+    ponteiro = (aluno*) malloc(num*sizeof(aluno));
+    if(ponteiro == NULL){
+        printf("ERRO DE MEMORIA\n");
+        exit(1);
+    }
+	int i = 0;
+    for(i = 0; i < num; i++){
+        printf("nome do aluno: ");
+        fflush(stdin);
+
+        fgets(ponteiro[i].nome,20,stdin);
+        printf("Insira a matricula de %s: ", ponteiro[i].nome);
+        scanf("%i",&ponteiro[i].matricula);
+
+        printf("Insira a nota de %s: ",ponteiro[i].nome);
+        scanf("%f",&ponteiro[i].nota);
+
+        printf("Insira a frequencia de %s: ", ponteiro[i].nome);
+        scanf("%i", &ponteiro[i].frequencia);
+
+        printf("Insira a turma de %s: ", ponteiro[i].nome);
+        fflush(stdin);
+        fgets(ponteiro[i].turma,20,stdin);
+		
+    }
+ 	
+}
+
+void mostrarAlunos(int num) {
+	if(ponteiro == NULL)
+		printf("Nenhum aluno cadastrado!\n");
+	else {
+		printf("Numero: %d\n", num);
+		for(int i = 0; i < num; i++) {
+			printf("%d - %s \n", i, ponteiro[i].nome); 
+		}
+	}
+}
+
+void apagarAluno() {
+	if(ponteiro == NULL) {
+		printf("Aluno não encontrado!\n");
+	}
+	else {
+		int escolha;
+		mostrarAlunos(num);
+		printf("Numero aluno p excluir: ");
+		scanf("%d", &escolha);
+		
+		ponteiro[escolha] = ponteiro[num-1];
+		num--;
+		ponteiro = (aluno*) realloc(ponteiro, num*sizeof(aluno));
+		
+	    }		
+	}
+
+
+void mostrarPeloNome() {
+	if(ponteiro == NULL) {
+		printf("Aluno não encontrado!\n");
+	}
+	else {   
+		char exibir_aluno_nome[50];
+	    printf("Insira o nome do aluno que deseja verificar ");
+	    fflush(stdin);
+	    fgets(exibir_aluno_nome,20,stdin);
+	    
+	    for(int i = 0; i< num; i++){
+	        if( strcmp(ponteiro[i].nome,exibir_aluno_nome) == 0 ){
+	            printf("Nome: %s", ponteiro[i].nome);
+	            printf("Matricula : %i\n", ponteiro[i].matricula);
+	            printf("Nota: %.1f\n", ponteiro[i].nota);
+	            printf("Frequencia: %i\n", ponteiro[i].frequencia);
+	            printf("Turma: %s\n", ponteiro[i].turma);
+	
+	        }
+	    }
+	}	
+}
+
+void mostrarPorMatricula() {
+	if(ponteiro == NULL) {
+		printf("Aluno não encontrado!\n");
+	}
+	else {
+	    int exibir_aluno_matricula;
+	    printf("Insira a matricula do aluno que deseja veriricar: ");
+	    scanf("%i", &exibir_aluno_matricula);
+	    for(int i = 0; i< num; i++){
+	        if( ponteiro[i].matricula == exibir_aluno_matricula){
+	            printf("Nome: %s", ponteiro[i].nome);
+	            printf("Matricula : %i\n", ponteiro[i].matricula);
+	            printf("Nota: %.1f\n", ponteiro[i].nota);
+	            printf("Frequencia: %i\n", ponteiro[i].frequencia);
+	            printf("Turma: %s\n", ponteiro[i].turma);
+	        }
+	    }
+	}	
+}
+
+void mostrarPorTurma(){
+	if(ponteiro == NULL) {
+		printf("Aluno não encontrado!\n");
+	}
+	else {
+	    char verificar_turma[50];
+	    printf("Insira a turma de que deseja verificar: ");
+	    fflush(stdin);
+	    fgets(verificar_turma,20,stdin);
+	    for(int i = 0; i< num; i++){
+	        if( strcmp( ponteiro[i].turma,verificar_turma ) == 0){
+	            printf("%s ", ponteiro[i].nome);
+	            printf("Matricula : %i\n", ponteiro[i].matricula);
+	            printf("Nota: %.1f\n", ponteiro[i].nota);
+	            printf("Frequencia: %i\n", ponteiro[i].frequencia);
+	            printf("Turma: %s\n", ponteiro[i].turma);
+	        }
+	    }
+	}
+	
+}
+
+void reprovadoAprovado(int num) {
+	if(ponteiro == NULL) 
+		printf("Nenhum aluno cadastrado!\n");
+
+	else {
+		int i;
+	    
+		for(i = 0; i < num; i++){
+	        if(ponteiro[i].nota >= 7 ){
+	            ponteiro[i].situacao = 1;
+	        }else{
+	            ponteiro[i].situacao = 0;
+	        }
+	    }
+	
+	    printf("ALUNOS APROVADOS: \n");
+	    for(i = 0; i < num; i++){
+	        if(int(ponteiro[i].situacao) == 1){
+	            printf("%s ", ponteiro[i].nome);
+	        }
+	
+	    }
+	
+	    printf("ALUNOS REPROVADOS: \n");
+	    for(i = 0; i < num; i++){
+	        if(int(ponteiro[i].situacao) == 0){
+	            printf("%s ", ponteiro[i].nome);
+	        }
+	
+	    }
+	}	
+}
